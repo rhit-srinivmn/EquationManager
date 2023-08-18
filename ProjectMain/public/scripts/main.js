@@ -32,6 +32,8 @@ rhit.fbEquationListManager = null;
 rhit.fbSingleEquationManager = null;
 rhit.fbAuthManager = null;
 
+var moderators = ["ZR9wMov3LGdssF39AfPeyT7cUMl1"];
+
 
 //From: https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 function htmlToElement(html) {
@@ -295,10 +297,11 @@ rhit.DetailPageController = class {
 		document.querySelector("#cardComment").innerHTML = rhit.fbSingleEquationManager.comment;
 		document.querySelector("#cardRating").innerHTML = rhit.fbSingleEquationManager.rating;
 
-		// if(rhit.fbSingleEquationManager.author == rhit.fbAuthManager.uid){
-		// 	document.querySelector("#menuEdit").style.display = "flex";
-		// 	document.querySelector("#menuDelete").style.display = "flex";
-		// }
+
+		if(rhit.fbSingleEquationManager.user == rhit.fbAuthManager.uid || moderators.includes(rhit.fbAuthManager.uid)){
+			document.querySelector("#menuEdit").style.display = "flex";
+			document.querySelector("#menuDelete").style.display = "flex";
+		}
 
 	}
 }

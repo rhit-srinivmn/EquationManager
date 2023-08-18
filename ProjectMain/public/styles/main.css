@@ -77,6 +77,6 @@ body {
     margin-right: 0.75rem;
 }
 
-/* #menuEdit,#menuDelete {
+#menuEdit,#menuDelete {
     display: none;
-} */
+}
