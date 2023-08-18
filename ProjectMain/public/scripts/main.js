@@ -27,6 +27,7 @@ rhit.FB_KEY_NAME = "name";
 rhit.FB_KEY_EQNNAME = "eqnName";
 rhit.FB_KEY_COMMENT = "comment";
 rhit.FB_KEY_RATING= "rating";
+rhit.FB_KEY_DESCRIPTION = "description";
 
 rhit.fbEquationListManager = null;
 rhit.fbSingleEquationManager = null;
@@ -41,6 +42,25 @@ function htmlToElement(html) {
 	html = html.trim();
 	template.innerHTML = html;
 	return template.content.firstChild;
+}
+
+function addToList(content, type, fileName) {
+	let li = document.createElement("li");
+	let a = document.createElement("a");
+	
+	if (type === 'url') {
+		a.href = content;
+		a.textContent = content;
+		a.target = "_blank"; // Opens in a new tab
+	} else if (type === 'pdf') {
+		a.href = content;
+		a.textContent = `PDF: ${fileName}`;
+		a.download = fileName; // This allows the file to be downloaded
+	}
+	
+
+	li.appendChild(a);
+	document.getElementById("contentList").appendChild(li);
 }
 
 
@@ -65,7 +85,8 @@ rhit.ListPageController = class {
 			const eqnName = document.querySelector("#inputDate").value;
 			const comment = document.querySelector("#inputComment").value;
 			const rating = document.querySelector("#inputRating").value;
-			rhit.fbEquationListManager.add(subject, equation, name, eqnName, comment, rating);
+			const description = "Initial Description";
+			rhit.fbEquationListManager.add(subject, equation, name, eqnName, comment, rating, description);
 
 		});
 
@@ -77,6 +98,7 @@ rhit.ListPageController = class {
 			document.querySelector("#inputDate").value ="";
 			document.querySelector("#inputComment").value = "";
 			document.querySelector("#inputRating").value="";
+			
 		});
 
 
@@ -159,7 +181,7 @@ rhit.ListPageController = class {
 
 
 rhit.Equation = class {
-    constructor(id, subject, equation, name, eqnName, comment, rating) {
+    constructor(id, subject, equation, name, eqnName, comment, rating, description) {
         this.id = id;
         this.subject = subject;
         this.equation = equation;
@@ -167,6 +189,7 @@ rhit.Equation = class {
         this.eqnName = eqnName;
         this.comment = comment;
         this.rating = rating;
+		this.description = description;
     }
 }
 
@@ -177,7 +200,7 @@ rhit.FbEquationListManager = class {
 		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_EQUATIONLOG);
 		this._unsubscribe = null;
 	}
-	add(subject, equation, name, eqnName, comment, rating) {
+	add(subject, equation, name, eqnName, comment, rating, description) {
 		// Add a new document with a generated id.
 		this._ref.add({
 				[rhit.FB_KEY_SUBJECT]: subject,
@@ -187,6 +210,7 @@ rhit.FbEquationListManager = class {
 				[rhit.FB_KEY_NAME]: name,
 				[rhit.FB_KEY_COMMENT]: comment,
 				[rhit.FB_KEY_RATING]: rating,
+				[rhit.FB_KEY_DESCRIPTION]: description,
 				[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
 			})
 			.then(function (docRef) {
@@ -239,6 +263,7 @@ rhit.FbEquationListManager = class {
 			docSnapshot.get(rhit.FB_KEY_NAME),
 			docSnapshot.get(rhit.FB_KEY_EQNNAME),
 			docSnapshot.get(rhit.FB_KEY_COMMENT),
+			docSnapshot.get(rhit.FB_KEY_DESCRIPTION),
 			docSnapshot.get(rhit.FB_KEY_RATING)
 		);
 		return eq;
@@ -252,6 +277,65 @@ rhit.DetailPageController = class {
 			rhit.fbAuthManager.signOut();
 		});
 
+		// TRYING STUFF
+
+		// document.getElementById("urlBtn").addEventListener("click", function() {
+		// 	let url = document.getElementById("urlInput").value;
+		// 	if (url) {
+		// 		addToList(url, 'url');
+		// 		var timestamp = Number(new Date());
+		// 		var storageRef = firebase.storage().ref(timestamp.toString());
+		// 		storageRef.put(url);
+		// 	}
+
+			
+		// });
+		
+		// document.getElementById("pdfBtn").addEventListener("click", function() {
+		// 	let file = document.getElementById("pdfInput").files[0];
+		// 	if (file) {
+		// 		let objectURL = URL.createObjectURL(file);
+		// 		addToList(objectURL, 'pdf', file.name);
+		// 		// var timestamp = Number(new Date());
+		// 		var storageRef = firebase.storage().ref(rhit.fbEquationListManager._uid);
+		// 		storageRef.put(file);
+		// 	}
+
+		
+		// });
+
+
+		// document.querySelector("#updateDescription").addEventListener("click", (event) => {
+		// 	let currentDescription = rhit.fbSingleEquationManager.description;
+
+
+		// 	document.getElementById('inputDescription').value = currentDescription;
+			
+
+		// 	document.getElementById('updateArea').style.display = 'block';
+		// });
+
+		// document.querySelector("#submitDescription").addEventListener("click", (event) => {
+		// 	let updatedDescription = document.getElementById('inputDescription').value;
+
+			
+		// 	document.getElementById('description').innerText = updatedDescription;
+		// 	rhit.fbSingleEquationManager.description = updateDescription;
+
+			
+		// 	document.getElementById('updateArea').style.display = 'none';
+		// });
+		
+
+
+
+
+
+
+
+
+		// --------------
+
 		document.querySelector("#submitEditEquation").addEventListener("click", (event) => {
 			const subject = document.querySelector("#inputSubject").value;
 			const equation = document.querySelector("#inputLog").value;
@@ -259,7 +343,8 @@ rhit.DetailPageController = class {
 			const eqnName = document.querySelector("#inputDate").value;
 			const comment = document.querySelector("#inputComment").value;
 			const rating = document.querySelector("#inputRating").value;
-			rhit.fbSingleEquationManager.update(subject, equation, name, eqnName, comment, rating);
+			const description = document.querySelector("#inputDescription").value;
+			rhit.fbSingleEquationManager.update(subject, equation, name, eqnName, comment, rating, description);
 		});
 
 		$("#editEquationDialog").on("show.bs.modal", (event) => {
@@ -270,6 +355,7 @@ rhit.DetailPageController = class {
 			document.querySelector("#inputDate").value = rhit.fbSingleEquationManager.eqnName;
 			document.querySelector("#inputComment").value = rhit.fbSingleEquationManager.comment;
 			document.querySelector("#inputRating").value = rhit.fbSingleEquationManager.rating;
+			document.querySelector("#inputDescription").value = rhit.fbSingleEquationManager.description;
 		});
 
 
@@ -313,6 +399,7 @@ rhit.DetailPageController = class {
 		document.querySelector("#cardeqnName").innerHTML = rhit.fbSingleEquationManager.eqnName;
 		document.querySelector("#cardComment").innerHTML = rhit.fbSingleEquationManager.comment;
 		document.querySelector("#cardRating").innerHTML = rhit.fbSingleEquationManager.rating;
+		document.querySelector("#description").innerHTML = rhit.fbSingleEquationManager.description;
 
 
 
@@ -329,6 +416,14 @@ rhit.DetailPageController = class {
 		}
 
 	}
+
+	
+
+
+
+
+
+
 }
 
 rhit.FbSingleEquationManager = class {
@@ -358,7 +453,7 @@ rhit.FbSingleEquationManager = class {
 	stopListening() {
 		this._unsubscribe();
 	}
-	update(subject, equation, name, eqnName, comment, rating) {
+	update(subject, equation, name, eqnName, comment, rating, description) {
 		this._ref.update({
 				[rhit.FB_KEY_SUBJECT]: subject,
 				[rhit.FB_KEY_EQUATION]: equation,
@@ -366,6 +461,7 @@ rhit.FbSingleEquationManager = class {
 				[rhit.FB_KEY_EQNNAME]: eqnName,
 				[rhit.FB_KEY_COMMENT]: comment,
 				[rhit.FB_KEY_RATING]: rating,
+				[rhit.FB_KEY_DESCRIPTION] : description,
 				[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
 			})
 			.then(() => {
@@ -402,6 +498,9 @@ rhit.FbSingleEquationManager = class {
 	}
 	get rating(){
 		return this._documentSnapshot.get(rhit.FB_KEY_RATING);
+	}
+	get description(){
+		return this._documentSnapshot.get(rhit.FB_KEY_DESCRIPTION);
 	}
 }
 
@@ -605,6 +704,33 @@ rhit.startFirebaseUI = function() {
 	 const ui = new firebaseui.auth.AuthUI(firebase.auth());
 	 ui.start('#firebaseui-auth-container', uiConfig);
 }
+
+function openTextArea() {
+	// Get current content of the div
+	let currentDescription = document.getElementById('description').innerText;
+
+	// Set the content to the textarea
+	document.getElementById('descriptionInput').value = currentDescription;
+
+	// Display the textarea
+	document.getElementById('updateArea').style.display = 'block';
+}
+
+function updateDescription() {
+	// Get updated content from the textarea
+	let updatedDescription = document.getElementById('descriptionInput').value;
+
+	// Set the updated content to the div
+	document.getElementById('description').innerText = updatedDescription;
+
+	// Hide the textarea
+	document.getElementById('updateArea').style.display = 'none';
+}
+
+
+
+
+
 
 
 rhit.main();

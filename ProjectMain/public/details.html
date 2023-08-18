@@ -41,6 +41,30 @@
   </div>
 
 
+
+  <!-- <div class="container">
+    <button id="urlBtn">Add URL to List</button>
+    <input type="url" id="urlInput" placeholder="Enter URL">
+
+    <button id="pdfBtn">Add PDF to List</button>
+    <input type="file" id="pdfInput" accept=".pdf">
+
+    <ul id="contentList"></ul>
+  </div> -->
+
+  <!-- <div id="description">This is the initial description.</div>
+  <button id="updateDescription">Update Description</button>
+
+  <div id="updateArea" style="display: none;">
+      <textarea id="inputDescription" rows="4" cols="50"></textarea>
+      <button id="submitDescription">Submit</button>
+  </div> -->
+
+  <div id="description">This is the initial description.</div>
+
+  
+
+
   
 
 <!-- Modal -->
@@ -78,6 +102,11 @@
           <label for="inputGrade">Grade</label>
           <input type="text" class="form-control" id="inputRating" placeholder=" ">
         </div>
+        <div class="form-group bmd-form-group">
+          <label for="inputDesc">Description</label>
+          <textarea id="inputDescription" rows="4" cols="50"  placeholder="Type description here..."></textarea>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
@@ -110,6 +139,9 @@
 
 
 
+
+
+
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
   <script src="scripts/bootstrap-material-design.js"></script>
@@ -123,6 +155,7 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>
   <script src="scripts/main.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
 </body>
 
 </html>
