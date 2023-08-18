@@ -120,7 +120,7 @@ rhit.ListPageController = class {
 		console.log(`Example quote = `, rhit.fbEquationListManager.getEquationAtIndex(0));
 
 		// Make a new quoteListContainer
-		const newList = htmlToElement('<div id="quoteListContainer"></div>');
+		const newList = htmlToElement('<div id="equationListContainer"></div>');
 
 		
 			// document.querySelector("#cardRating").style.display = "flex";
@@ -154,7 +154,7 @@ rhit.ListPageController = class {
 		}
 
 		// Remove the old quoteListContainer
-		const oldList = document.querySelector("#quoteListContainer");
+		const oldList = document.querySelector("#equationListContainer");
 		oldList.removeAttribute("id");
 		oldList.hidden = true;
 		// Put in the new quoteListContainer
@@ -263,8 +263,8 @@ rhit.FbEquationListManager = class {
 			docSnapshot.get(rhit.FB_KEY_NAME),
 			docSnapshot.get(rhit.FB_KEY_EQNNAME),
 			docSnapshot.get(rhit.FB_KEY_COMMENT),
-			docSnapshot.get(rhit.FB_KEY_DESCRIPTION),
-			docSnapshot.get(rhit.FB_KEY_RATING)
+			docSnapshot.get(rhit.FB_KEY_RATING),
+			docSnapshot.get(rhit.FB_KEY_DESCRIPTION)
 		);
 		return eq;
 	}
@@ -705,27 +705,27 @@ rhit.startFirebaseUI = function() {
 	 ui.start('#firebaseui-auth-container', uiConfig);
 }
 
-function openTextArea() {
-	// Get current content of the div
-	let currentDescription = document.getElementById('description').innerText;
+// function openTextArea() {
+// 	// Get current content of the div
+// 	let currentDescription = document.getElementById('description').innerText;
 
-	// Set the content to the textarea
-	document.getElementById('descriptionInput').value = currentDescription;
+// 	// Set the content to the textarea
+// 	document.getElementById('descriptionInput').value = currentDescription;
 
-	// Display the textarea
-	document.getElementById('updateArea').style.display = 'block';
-}
+// 	// Display the textarea
+// 	document.getElementById('updateArea').style.display = 'block';
+// }
 
-function updateDescription() {
-	// Get updated content from the textarea
-	let updatedDescription = document.getElementById('descriptionInput').value;
+// function updateDescription() {
+// 	// Get updated content from the textarea
+// 	let updatedDescription = document.getElementById('descriptionInput').value;
 
-	// Set the updated content to the div
-	document.getElementById('description').innerText = updatedDescription;
+// 	// Set the updated content to the div
+// 	document.getElementById('description').innerText = updatedDescription;
 
-	// Hide the textarea
-	document.getElementById('updateArea').style.display = 'none';
-}
+// 	// Hide the textarea
+// 	document.getElementById('updateArea').style.display = 'none';
+// }
 
 
 
