@@ -32,7 +32,7 @@ rhit.fbEquationListManager = null;
 rhit.fbSingleEquationManager = null;
 rhit.fbAuthManager = null;
 
-var moderators = ["ZR9wMov3LGdssF39AfPeyT7cUMl1"];
+var moderators = ["ZR9wMov3LGdssF39AfPeyT7cUMl1","ogA3V3DLX6bUSjr50PgjAjpLYL22"];
 
 
 //From: https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
@@ -92,16 +92,33 @@ rhit.ListPageController = class {
 
 
 	updateList() {
+
 		console.log("I need to update list on the page");
 		console.log(`Num quotes = ${rhit.fbEquationListManager.length}`);
 		console.log(`Example quote = `, rhit.fbEquationListManager.getEquationAtIndex(0));
 
 		// Make a new quoteListContainer
 		const newList = htmlToElement('<div id="quoteListContainer"></div>');
+
+		
+			// document.querySelector("#cardRating").style.display = "flex";
+		
+
+		
+
 		// Fill the quoteListContainer with quote cards using a loop 
 		for (let i = 0; i < rhit.fbEquationListManager.length; i++) {
 			const eq = rhit.fbEquationListManager.getEquationAtIndex(i);
 			const newCard = this._createCard(eq);
+
+			if(eq.rating == "5" || eq.rating == "4"){
+				newCard.style.backgroundColor = "green";
+			}else if(eq.rating == "3" || eq.rating == "2"){
+				newCard.style.backgroundColor = "yellow";
+			}else if(eq.rating == "1"){
+				newCard.style.backgroundColor = "red";
+			} 
+
 			renderLatexInCard(newCard);
 
 			newCard.onclick = (event) => {
@@ -297,6 +314,14 @@ rhit.DetailPageController = class {
 		document.querySelector("#cardComment").innerHTML = rhit.fbSingleEquationManager.comment;
 		document.querySelector("#cardRating").innerHTML = rhit.fbSingleEquationManager.rating;
 
+
+
+		console.log(moderators.includes(rhit.fbAuthManager.uid));
+		if(moderators.includes(rhit.fbAuthManager.uid)){
+			document.querySelector("#cardRating").style.display = "flex";
+			document.querySelector("#inputRating").style.display = "flex";
+
+		}
 
 		if(rhit.fbSingleEquationManager.user == rhit.fbAuthManager.uid || moderators.includes(rhit.fbAuthManager.uid)){
 			document.querySelector("#menuEdit").style.display = "flex";
