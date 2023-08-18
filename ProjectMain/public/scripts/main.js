@@ -34,6 +34,7 @@ rhit.fbSingleEquationManager = null;
 rhit.fbAuthManager = null;
 
 var moderators = ["ZR9wMov3LGdssF39AfPeyT7cUMl1","ogA3V3DLX6bUSjr50PgjAjpLYL22"];
+var filterValue = "";
 
 
 //From: https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
@@ -76,6 +77,11 @@ rhit.ListPageController = class {
 		});
 		document.querySelector("#menuSignOut").addEventListener("click", (event) => {
 			rhit.fbAuthManager.signOut();
+		});
+
+		document.querySelector("#filterButton").addEventListener("click", (event) => {
+			filterValue = document.querySelector("#filterValue").value;
+			this.updateList();
 		});
 
 		document.querySelector("#submitAddEquation").addEventListener("click", (event) => {
@@ -126,7 +132,7 @@ rhit.ListPageController = class {
 			// document.querySelector("#cardRating").style.display = "flex";
 		
 
-		
+		console.log(filterValue);
 
 		// Fill the quoteListContainer with quote cards using a loop 
 		for (let i = 0; i < rhit.fbEquationListManager.length; i++) {
@@ -149,8 +155,16 @@ rhit.ListPageController = class {
 				window.location.href = `/details.html?id=${eq.id}`;
 
 			};
+			
 
-			newList.appendChild(newCard);
+			if(!(filterValue === "")) {
+				if(eq.subject === filterValue) {
+					newList.appendChild(newCard);
+				}
+			} else {
+				newList.appendChild(newCard);
+			}
+			
 		}
 
 		// Remove the old quoteListContainer

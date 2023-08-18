@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
   <link rel="stylesheet" href="styles/main.css">
-  <title>My Movie Quotes</title>
+  <title>Equation Manager</title>
 </head>
 
 <body>
@@ -23,6 +23,10 @@
           <i class="material-icons">menu</i>
         </button>
         <a class="navbar-brand" href="#">&nbsp;&nbsp;Equations Manager</a>
+        <input type="text" class="form-control" id="filterValue" placeholder=" ">
+        <button id="filterButton" type="button" class="btn btn-info bmd-btn-fab">
+            Filter
+        </button>
       </div>
     </header>
     <div id="dw-s2" class="bmd-layout-drawer bg-faded">
@@ -42,6 +46,8 @@
       </div>
     </main>
   </div>
+
+  
 
 
   <button id="fab" type="button" class="btn btn-info bmd-btn-fab" data-toggle="modal" data-target="#addEquationDialog">
