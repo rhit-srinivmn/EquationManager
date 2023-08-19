@@ -9,14 +9,6 @@
 /** namespace. */
 var rhit = rhit || {};
 
-// rhit.FB_COLLECTION_MOVIEQUOTES = "MovieQuotes";
-// rhit.FB_KEY_QUOTE = "quote";
-// rhit.FB_KEY_MOVIE = "movie";
-// rhit.FB_KEY_LAST_TOUCHED = "lastTouched";
-// rhit.FB_KEY_AUTHOR = "author";
-// rhit.fbMovieQuotesManager = null;
-// rhit.fbSingleQuoteManager = null;
-// rhit.fbAuthManager = null;
 
 rhit.FB_COLLECTION_EQUATIONLOG = "EquationLog";
 rhit.FB_KEY_SUBJECT = "subject";
@@ -45,35 +37,14 @@ function htmlToElement(html) {
 	return template.content.firstChild;
 }
 
-function addToList(content, type, fileName) {
-	let li = document.createElement("li");
-	let a = document.createElement("a");
-	
-	if (type === 'url') {
-		a.href = content;
-		a.textContent = content;
-		a.target = "_blank"; // Opens in a new tab
-	} else if (type === 'pdf') {
-		a.href = content;
-		a.textContent = `PDF: ${fileName}`;
-		a.download = fileName; // This allows the file to be downloaded
-	}
-	
-
-	li.appendChild(a);
-	document.getElementById("contentList").appendChild(li);
-}
-
 
 rhit.ListPageController = class {
 	constructor() {
-		// document.querySelector("#submitAddQuote").onclick = (event) => {	
-		// };
-		document.querySelector("#menuShowAllQuotes").addEventListener("click", (event) => {
+		document.querySelector("#menuShowAllEquations").addEventListener("click", (event) => {
 			window.location.href = "/list.html";
 		});
-		document.querySelector("#menuShowMyQuotes").addEventListener("click", (event) => {
-			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
+		document.querySelector("#menuShowMyEquations").addEventListener("click", (event) => {
+			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;	
 		});
 		document.querySelector("#menuSignOut").addEventListener("click", (event) => {
 			rhit.fbAuthManager.signOut();
@@ -121,39 +92,32 @@ rhit.ListPageController = class {
 
 	updateList() {
 
-		console.log("I need to update list on the page");
-		console.log(`Num quotes = ${rhit.fbEquationListManager.length}`);
-		console.log(`Example quote = `, rhit.fbEquationListManager.getEquationAtIndex(0));
+		// console.log("I need to update list on the page");
+		// console.log(`Num Equations = ${rhit.fbEquationListManager.length}`);
+		// console.log(`Example Equation = `, rhit.fbEquationListManager.getEquationAtIndex(0));
 
-		// Make a new quoteListContainer
+		
 		const newList = htmlToElement('<div id="equationListContainer"></div>');
+		
+		// console.log(filterValue);
 
 		
-			// document.querySelector("#cardRating").style.display = "flex";
-		
-
-		console.log(filterValue);
-
-		// Fill the quoteListContainer with quote cards using a loop 
 		for (let i = 0; i < rhit.fbEquationListManager.length; i++) {
 			const eq = rhit.fbEquationListManager.getEquationAtIndex(i);
 			const newCard = this._createCard(eq);
 
 			if(eq.rating == "5" || eq.rating == "4"){
-				newCard.style.backgroundColor = "green";
+				newCard.style.backgroundColor = `rgb(${10}, ${214}, ${102})`;
 			}else if(eq.rating == "3" || eq.rating == "2"){
 				newCard.style.backgroundColor = "yellow";
 			}else if(eq.rating == "1"){
-				newCard.style.backgroundColor = "red";
+				newCard.style.backgroundColor = `rgb(${240}, ${57}, ${44})`;
 			} 
 
 			renderLatexInCard(newCard);
 
 			newCard.onclick = (event) => {
-				// console.log(`You clicked on ${mq.id} `);
-				// rhit.storage.setMovieQuoteId(mq.id);
 				window.location.href = `/details.html?id=${eq.id}`;
-
 			};
 			
 
@@ -167,11 +131,11 @@ rhit.ListPageController = class {
 			
 		}
 
-		// Remove the old quoteListContainer
+	
 		const oldList = document.querySelector("#equationListContainer");
 		oldList.removeAttribute("id");
 		oldList.hidden = true;
-		// Put in the new quoteListContainer
+	
 		oldList.parentElement.appendChild(newList);
 
 	}
@@ -248,9 +212,7 @@ rhit.FbEquationListManager = class {
 			console.log("Equation Update");
 
 			this._documentSnapshots = querySnapshot.docs;
-			// querySnapshot.forEach((doc) => {
-			// 	console.log(doc.data());
-			// });
+			
 
 			changeListener();
 		});
@@ -261,9 +223,6 @@ rhit.FbEquationListManager = class {
 		this._unsubscribe();
 	}
 
-
-	// update(id, quote, movie) {    }
-	// delete(id) { }
 	get length() {
 		return this._documentSnapshots.length;
 	}
@@ -373,9 +332,9 @@ rhit.DetailPageController = class {
 		});
 
 
-		$("#editQuoteDialog").on("shown.bs.modal", (event) => {
+		$("#editEquationDialog").on("shown.bs.modal", (event) => {
 			// Post animation
-			document.querySelector("#inputQuote").focus();
+			document.querySelector("#inputName").focus();
 		});
 
 		document.querySelector("#submitDeleteEquation").addEventListener("click", (event) => {
@@ -395,19 +354,16 @@ rhit.DetailPageController = class {
 
 	}
 	updateView() {
-		// renderLatex();
-		// document.querySelector("#cardQuote").innerHTML = rhit.fbSingleQuoteManager.quote;
-		// document.querySelector("#cardMovie").innerHTML = rhit.fbSingleQuoteManager.movie;
+
+		// Create a typeset for latex code to be rendered later
 		let equationDiv = document.querySelector("#cardPost");
 		equationDiv.innerHTML = "\\[" + rhit.fbSingleEquationManager.equation + "\\]";
 
 		// Ask MathJax to update the rendering
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, equationDiv]);
 
-		console.log(rhit.fbSingleEquationManager.equation);
+		// console.log(rhit.fbSingleEquationManager.equation);
 
-
-		// document.querySelector("#cardPost").innerHTML = rhit.fbSingleEquationManager.equation;
 		document.querySelector("#cardName").innerHTML = `Name: ${rhit.fbSingleEquationManager.name}`;
 		document.querySelector("#cardSubject").innerHTML = `Subject: ${rhit.fbSingleEquationManager.subject}`;
 		document.querySelector("#cardeqnName").innerHTML = `Equation Name: ${rhit.fbSingleEquationManager.eqnName}`;
@@ -417,7 +373,7 @@ rhit.DetailPageController = class {
 
 
 
-		console.log(moderators.includes(rhit.fbAuthManager.uid));
+		// console.log(moderators.includes(rhit.fbAuthManager.uid));
 		if(moderators.includes(rhit.fbAuthManager.uid)){
 			document.querySelector("#cardRating").style.display = "flex";
 			document.querySelector("#inputRating").style.display = "flex";
@@ -441,18 +397,18 @@ rhit.DetailPageController = class {
 }
 
 rhit.FbSingleEquationManager = class {
-	constructor(movieQuoteId) {
+	constructor(equationId) {
 		this._documentSnapshot = {};
 		this._unsubscribe = null;
-		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_EQUATIONLOG).doc(movieQuoteId);
-		console.log(`Listening to ${this._ref.path}`);
+		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_EQUATIONLOG).doc(equationId);
+		// console.log(`Listening to ${this._ref.path}`);
 	}
 
 	beginListening(changeListener) {
 
 		this._unsubscribe = this._ref.onSnapshot((doc) => {
 			if (doc.exists) {
-				console.log("Document data:", doc.data());
+				// console.log("Document data:", doc.data());
 				this._documentSnapshot = doc;
 				changeListener();
 			} else {
@@ -518,21 +474,6 @@ rhit.FbSingleEquationManager = class {
 	}
 }
 
-
-
-// rhit.storage = rhit.storage || {};
-// rhit.storage.MOVIEQUOTE_ID_KEY = "movieQuoteId";
-// rhit.storage.getMovieQuoteId = function() {
-// 	const mqId = sessionStorage.getItem(rhit.storage.MOVIEQUOTE_ID_KEY);
-// 	if(!mqId){
-// 		console.log("No movie quote id in session storage");
-// 	}
-// 	return mqId;
-// };
-
-// rhit.storage.setMovieQuoteId = function(movieQuoteId){
-// 	 sessionStorage.setItem(rhit.storage.MOVIEQUOTE_ID_KEY, movieQuoteId);
-// };
 
 rhit.LoginPageController = class {
 	constructor() {
@@ -615,15 +556,14 @@ rhit.initializePage = function () {
 
 	if (document.querySelector("#detailPage")) {
 		console.log("You are on the detail page");
-		// const movieQuoteId = rhit.storage.getMovieQuoteId();
 		const urlParams = new URLSearchParams(window.location.search);
-		const movieQuoteId = urlParams.get("id");
+		const equationId = urlParams.get("id");
 
-		if (!movieQuoteId) {
+		if (!equationId) {
 			window.location.href = "/";
 		}
 
-		rhit.fbSingleEquationManager = new rhit.FbSingleEquationManager(movieQuoteId);
+		rhit.fbSingleEquationManager = new rhit.FbSingleEquationManager(equationId);
 		new rhit.DetailPageController();
 	}
 
@@ -640,9 +580,7 @@ rhit.main = function () {
 	console.log("Ready");
 	rhit.fbAuthManager = new rhit.FbAuthManager();
 	rhit.fbAuthManager.beginListening(() => {
-		console.log("auth change callback fired. TO DO: Check for redirects and init the page");
 		console.log("isSignedIn = ", rhit.fbAuthManager.isSignedIn);
-		
 		rhit.checkForRedirects();
 		rhit.initializePage();
 		
@@ -650,42 +588,10 @@ rhit.main = function () {
 
 	});
 
-	// Temp code for Read and Add
-	// 	const ref = firebase.firestore().collection("MovieQuotes");
-	// 	ref.onSnapshot((querySnapshot) => {
-
-	//   		querySnapshot.forEach((doc) => {
-	// 			console.log(doc.data());
-	//   	});
-	// });
-
-	// ref.add({
-	// 	quote: "My first test",
-	// 	Movie: "My first movie"
-	// });
-
 
 };
 
-function renderLatex(inputCode) {
-    // let latexCode = document.getElementById("inputLog").value;
-    // let outputDiv = document.getElementById("output");
-    
-    // Put the LaTeX code inside \( ... \) or \[ ... \] delimiters to render inline or block respectively
-    outputDiv.innerHTML = "\\[" + inputCode + "\\]";
 
-    // Ask MathJax to update the rendering
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputDiv]);
-	// document.getElementById("latexInput").addEventListener("input", renderLatex);
-}
-// function renderLatex(textareaID, outputID) {
-//     const latexCode = document.getElementById(textareaID).value;
-//     const outputDiv = document.getElementById(outputID);
-    
-//     outputDiv.innerHTML = "\\[" + latexCode + "\\]";
-//     MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputDiv]);
-// 	document.getElementById(textareaID).addEventListener("input", renderLatex);
-// }
 
 function renderLatexInCard(cardElement) {
     const latexAreas = cardElement.querySelectorAll('.latexOutput');

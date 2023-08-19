@@ -36,11 +36,13 @@ body {
 }
 
 .card {
-    margin: 10px 0;
+    margin: 20px 0;
     color: black;
 }
 
-
+#listPage {
+    background-color: #DDDDDD;
+}
 
 
 #listPage .card-title, 
@@ -98,3 +100,21 @@ body {
 #descriptionHeading {
     text-align: center;
 }
+
+#description {
+    margin-left: 30px;
+}
+
+#filterSearchBar{
+    color: white;
+    font-size: 0.75em;
+    margin-left: 30px;
+}
+#filterButton {
+    margin-left: 30px;
+}
+
+#filterValue{
+    margin-left: 30px;
+}
+
