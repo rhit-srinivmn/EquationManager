@@ -29,10 +29,11 @@
   </nav>
   <h2>Detail Log Page</h2>
   <div id="detailPage" class="container page-container">
+    <div class="card" style="border-radius: 10%">
       <div class="card-body" data-background-color="empty">
         <h6 id="cardName" class ="card-subtitle mb-2 text-muted"></h6>
-        <h6 id = "cardeqnName" class="card-subtitle mb-2 text-muted"></h6>
         <h5 id="cardSubject" class="card-title"></h5>
+        <h6 id = "cardeqnName" class="card-subtitle mb-2 text-muted"></h6>
         <h6 id="cardPost" class="card-subtitle mb-2 text-muted">Loading...</h6>
         <h6 id = "cardComment" class="card-subtitle mb-2 text-muted"></h6>
         <h6 id = "cardRating" class="card-subtitle mb-2 text-muted"></h6>
@@ -59,6 +60,9 @@
       <textarea id="inputDescription" rows="4" cols="50"></textarea>
       <button id="submitDescription">Submit</button>
   </div> -->
+  <hr>
+
+  <h1 id="descriptionHeading"><i class="material-icons">description</i>Description</h1>
 
   <div id="description">This is the initial description.</div>
 
@@ -68,11 +72,11 @@
   
 
 <!-- Modal -->
-<div class="modal fade" id="editEquationDialog" tabindex="-1" role="dialog" aria-labelledby="Edit Quote Dialog" aria-hidden="true">
+<div class="modal fade" id="editEquationDialog" tabindex="-1" role="dialog" aria-labelledby="Edit Equation Dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit this Movie Quote</h5>
+        <h5 class="modal-title">Edit this Equation</h5>
       </div>
       <div class="modal-body">
 
@@ -82,7 +86,7 @@
           <input type="text" class="form-control" id="inputName" placeholder=" ">
         </div>
         <div class="form-group bmd-form-group">
-          <label for="inputDate">Eqn Name</label>
+          <label for="inputDate">Equation Name</label>
           <input type="text" class="form-control" id="inputDate" placeholder=" ">
         </div>
         <div class="form-group bmd-form-group">
@@ -117,14 +121,14 @@
 </div>
 
 
-<div class="modal fade" id="deleteEquationDialog" tabindex="-1" role="dialog" aria-labelledby="Delete Quote Dialog" aria-hidden="true">
+<div class="modal fade" id="deleteEquationDialog" tabindex="-1" role="dialog" aria-labelledby="Delete Equation Dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete this quote</h5>
+        <h5 class="modal-title">Delete this Equation</h5>
       </div>
       <div class="modal-body">
-        Are you sure you want to delete this movie quote?
+        Are you sure you want to delete this equation?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>

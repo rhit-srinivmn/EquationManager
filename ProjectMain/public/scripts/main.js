@@ -186,7 +186,7 @@ rhit.ListPageController = class {
 					<h5 class="latexOutput mb-2">${log.equation}</h5>
 					<div id="output"></div>
 					<h6 class="card-subtitle mb-2">Comment: ${log.comment}</h6>
-					<h6 class="card-subtitle mb-2" style="display: hidden">${log.rating}</h6>
+					<h6 class="card-subtitle mb-2" style="display: hidden">Rating: ${log.rating}</h6>
 				</div>
 			</div>`);
 	}
@@ -407,13 +407,13 @@ rhit.DetailPageController = class {
 		console.log(rhit.fbSingleEquationManager.equation);
 
 
-		document.querySelector("#cardSubject").innerHTML = rhit.fbSingleEquationManager.subject;
 		// document.querySelector("#cardPost").innerHTML = rhit.fbSingleEquationManager.equation;
-		document.querySelector("#cardName").innerHTML = rhit.fbSingleEquationManager.name;
-		document.querySelector("#cardeqnName").innerHTML = rhit.fbSingleEquationManager.eqnName;
-		document.querySelector("#cardComment").innerHTML = rhit.fbSingleEquationManager.comment;
-		document.querySelector("#cardRating").innerHTML = rhit.fbSingleEquationManager.rating;
-		document.querySelector("#description").innerHTML = rhit.fbSingleEquationManager.description;
+		document.querySelector("#cardName").innerHTML = `Name: ${rhit.fbSingleEquationManager.name}`;
+		document.querySelector("#cardSubject").innerHTML = `Subject: ${rhit.fbSingleEquationManager.subject}`;
+		document.querySelector("#cardeqnName").innerHTML = `Equation Name: ${rhit.fbSingleEquationManager.eqnName}`;
+		document.querySelector("#cardComment").innerHTML = `Comment: ${rhit.fbSingleEquationManager.comment}`;
+		document.querySelector("#cardRating").innerHTML = `Rating: ${rhit.fbSingleEquationManager.rating}`;
+		document.querySelector("#description").innerHTML = `${rhit.fbSingleEquationManager.description}`;
 
 
 

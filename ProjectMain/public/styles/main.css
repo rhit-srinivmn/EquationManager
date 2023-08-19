@@ -13,7 +13,7 @@ body {
 
 
 #fab {
-    background: #800000;
+    background: #1d77ec;
     bottom: 10px;
     color: white;
     position: fixed;
@@ -22,6 +22,14 @@ body {
 
 }
 
+
+#filterButton {
+    background: #1d77ec;
+    color: white;
+
+}
+
+
 #fab:active{
     opacity: 0.8;
     transform: translateY(2px);
@@ -29,7 +37,11 @@ body {
 
 .card {
     margin: 10px 0;
+    color: black;
 }
+
+
+
 
 #listPage .card-title, 
 #listPage .card-subtitle {
@@ -37,6 +49,7 @@ body {
     overflow: hidden;
     display: block;
     text-overflow: ellipsis;
+    color: black;
 }
 
 .dropdown-menu-right {
@@ -80,4 +93,8 @@ body {
 #menuEdit,#menuDelete,
 #inputRating, #cardRating {
     display: none;
+}
+
+#descriptionHeading {
+    text-align: center;
 }
