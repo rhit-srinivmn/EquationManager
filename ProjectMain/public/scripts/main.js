@@ -250,64 +250,6 @@ rhit.DetailPageController = class {
 			rhit.fbAuthManager.signOut();
 		});
 
-		// TRYING STUFF
-
-		// document.getElementById("urlBtn").addEventListener("click", function() {
-		// 	let url = document.getElementById("urlInput").value;
-		// 	if (url) {
-		// 		addToList(url, 'url');
-		// 		var timestamp = Number(new Date());
-		// 		var storageRef = firebase.storage().ref(timestamp.toString());
-		// 		storageRef.put(url);
-		// 	}
-
-			
-		// });
-		
-		// document.getElementById("pdfBtn").addEventListener("click", function() {
-		// 	let file = document.getElementById("pdfInput").files[0];
-		// 	if (file) {
-		// 		let objectURL = URL.createObjectURL(file);
-		// 		addToList(objectURL, 'pdf', file.name);
-		// 		// var timestamp = Number(new Date());
-		// 		var storageRef = firebase.storage().ref(rhit.fbEquationListManager._uid);
-		// 		storageRef.put(file);
-		// 	}
-
-		
-		// });
-
-
-		// document.querySelector("#updateDescription").addEventListener("click", (event) => {
-		// 	let currentDescription = rhit.fbSingleEquationManager.description;
-
-
-		// 	document.getElementById('inputDescription').value = currentDescription;
-			
-
-		// 	document.getElementById('updateArea').style.display = 'block';
-		// });
-
-		// document.querySelector("#submitDescription").addEventListener("click", (event) => {
-		// 	let updatedDescription = document.getElementById('inputDescription').value;
-
-			
-		// 	document.getElementById('description').innerText = updatedDescription;
-		// 	rhit.fbSingleEquationManager.description = updateDescription;
-
-			
-		// 	document.getElementById('updateArea').style.display = 'none';
-		// });
-		
-
-
-
-
-
-
-
-
-		// --------------
 
 		document.querySelector("#submitEditEquation").addEventListener("click", (event) => {
 			const subject = document.querySelector("#inputSubject").value;
