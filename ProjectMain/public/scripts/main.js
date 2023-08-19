@@ -9,7 +9,6 @@
 /** namespace. */
 var rhit = rhit || {};
 
-
 rhit.FB_COLLECTION_EQUATIONLOG = "EquationLog";
 rhit.FB_KEY_SUBJECT = "subject";
 rhit.FB_KEY_EQUATION = "equation";
@@ -81,7 +80,7 @@ rhit.ListPageController = class {
 
 		$("#addEquationDialog").on("shown.bs.modal", (event) => {
 			// Post animation
-			document.querySelector("#inputSubject").focus();
+			document.querySelector("#inputName").focus();
 		});
 
 		//Start Listening
@@ -105,7 +104,11 @@ rhit.ListPageController = class {
 		for (let i = 0; i < rhit.fbEquationListManager.length; i++) {
 			const eq = rhit.fbEquationListManager.getEquationAtIndex(i);
 			const newCard = this._createCard(eq);
-
+			renderLatexInCard(newCard, eq);
+		
+			
+			
+			
 			if(eq.rating == "5" || eq.rating == "4"){
 				newCard.style.backgroundColor = `rgb(${10}, ${214}, ${102})`;
 			}else if(eq.rating == "3" || eq.rating == "2"){
@@ -114,7 +117,7 @@ rhit.ListPageController = class {
 				newCard.style.backgroundColor = `rgb(${240}, ${57}, ${44})`;
 			} 
 
-			renderLatexInCard(newCard);
+		
 
 			newCard.onclick = (event) => {
 				window.location.href = `/details.html?id=${eq.id}`;
@@ -147,7 +150,7 @@ rhit.ListPageController = class {
 					<h6 class="card-subtitle mb-2 text-muted">Name: ${log.name}</h6>
 					<h4 class="card-title">Subject: ${log.subject}</h4>
 					<h6 class="card-subtitle mb-2 text-muted">Equation Name: ${log.eqnName}</h6>
-					<h5 class="latexOutput mb-2">${log.equation}</h5>
+					<h5 id="latexElement" class="latexOutput mb-2">${log.equation}</h5>
 					<div id="output"></div>
 					<h6 class="card-subtitle mb-2">Comment: ${log.comment}</h6>
 					<h6 class="card-subtitle mb-2" style="display: hidden">Rating: ${log.rating}</h6>
@@ -319,6 +322,8 @@ rhit.DetailPageController = class {
 		if(moderators.includes(rhit.fbAuthManager.uid)){
 			document.querySelector("#cardRating").style.display = "flex";
 			document.querySelector("#inputRating").style.display = "flex";
+			document.querySelector("#cardComment").style.display = "flex";
+			document.querySelector("#inputComment").style.display = "flex";
 
 		}
 
@@ -539,15 +544,27 @@ function renderLatexInCard(cardElement) {
     const latexAreas = cardElement.querySelectorAll('.latexOutput');
 
     latexAreas.forEach(area => {
+		// console.log(area);
         const latexCode = area.textContent;
+		// console.log(latexCode);
 
         // Set the content for MathJax to render
         area.innerHTML = "\\[" + latexCode + "\\]";
+        // area.innerHTML = latexCode ;
 
-        // Ask MathJax to render it
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, area]);
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+			// Ask MathJax to render it
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub, area]);	
+		
+       
+       
     });
 }
+
+
+
+
+
 
 rhit.startFirebaseUI = function() { 
 	// FirebaseUI config.
@@ -567,27 +584,7 @@ rhit.startFirebaseUI = function() {
 	 ui.start('#firebaseui-auth-container', uiConfig);
 }
 
-// function openTextArea() {
-// 	// Get current content of the div
-// 	let currentDescription = document.getElementById('description').innerText;
 
-// 	// Set the content to the textarea
-// 	document.getElementById('descriptionInput').value = currentDescription;
-
-// 	// Display the textarea
-// 	document.getElementById('updateArea').style.display = 'block';
-// }
-
-// function updateDescription() {
-// 	// Get updated content from the textarea
-// 	let updatedDescription = document.getElementById('descriptionInput').value;
-
-// 	// Set the updated content to the div
-// 	document.getElementById('description').innerText = updatedDescription;
-
-// 	// Hide the textarea
-// 	document.getElementById('updateArea').style.display = 'none';
-// }
 
 
 

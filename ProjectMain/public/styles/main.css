@@ -93,7 +93,7 @@ body {
 }
 
 #menuEdit,#menuDelete,
-#inputRating, #cardRating {
+#inputRating, #cardRating, #cardComment, #inputComment {
     display: none;
 }
 
